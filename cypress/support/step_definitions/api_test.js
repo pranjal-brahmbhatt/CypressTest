@@ -29,7 +29,7 @@ When("I send a {string} request to {string}", (method, endpoint) => {
       url: Cypress.env("apiBaseUrl") + endpoint,
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic b2JzZXJ2YWJpbGl0eTpEaWd5NDEwMSE=", 
+        // Authorization: "Basic b2JzZXJ2YWJpbGl0eTpEaWd5NDEwMSE=", 
       },
       body: {
         username: "test@example.com",
