@@ -11,11 +11,10 @@ module.exports = defineConfig({
   screenshotOnRunFailure: false,
   trashAssetsBeforeRuns: false,
   digyRunnerConfig: {
-    // PROTOCOL: "http",
-    // HOSTNAME: "localhost",
+    PROTOCOL: "http",
+    HOSTNAME: "localhost",
     // PROJECT_NAME: "demo",
     // TEAM_NAME: "Team",
-    LOB: "AUTOMATION",
     TEAM_NAME: "DIGY4",
     PROJECT_NAME: "RCASEPC",
     BUILD_ID: "",
@@ -37,11 +36,11 @@ module.exports = defineConfig({
     filterSpecs: true,
     omitFiltered: true,
     TEST_TYPE: "WEB"
-    //TEST_TYPE: "API"
+    // TEST_TYPE: "API"
     //TEST_TYPE: "HYBRID"
   },
   e2e: {
-    testIsolation: false,
+    // testIsolation: false,
     baseUrl: "https://dashboard-test-iaac.digy4.com",
     env: {
       apiBaseUrl: "https://u7dd3kq498.execute-api.us-west-2.amazonaws.com/prod" // API Base URL
@@ -50,11 +49,11 @@ module.exports = defineConfig({
       await addCucumberPreprocessorPlugin(on, config);
       on("file:preprocessor", createBundler({ plugins: [createEsbuildPlugin(config)] }));
 
-      await DigyRunner.setup(on, config);
+      // await DigyRunner.setup(on, config);
 
       return config;
     },
     specPattern: "cypress/e2e/**/dashboard.feature",  //WEB
-   // specPattern: "cypress/e2e/**/API.feature", //API
+  //  specPattern: "cypress/e2e/**/API.feature", //API
   },
 });
