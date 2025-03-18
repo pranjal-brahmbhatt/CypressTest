@@ -15,17 +15,14 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import 'cypress-xpath';
 
-before(() => {
-   cy.login();
+beforeEach(() => {
+  cy.login();
 });
 
-// Runs after each scenario
-after(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-  });
 
-//   after(() => {
-//     Cypress.runner.stop(); // Stop Cypress execution after all tests
-//   });
+afterEach(() => {
+  cy.clearCookies();  
+  cy.clearLocalStorage();  
+});

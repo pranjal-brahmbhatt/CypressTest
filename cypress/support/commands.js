@@ -24,20 +24,21 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('login', () => {
-  cy.session('userSession', () => {  
-    cy.visit("https://dashboard-test-iaac.digy4.com/auth/login");
+  // cy.session('userSession', () => {  
+    cy.visit("https://dashboard-test-iaac.digy4.com/auth/login", { timeout: 10000 });
 
     // Wait for the login page to load
     cy.get("[data-testid='userName']", { timeout: 10000 }).should('be.visible');
 
     // Enter credentials
     cy.get("[data-testid='userName']").type("pranjal.brahmbhatt");
+    // cy.wait(2000);
     cy.get("[data-testid='password']").type("Digy4101!");
     cy.get("[data-testid='loginButton']").click();
 
     // Ensure login is successful by waiting for dashboard to appear
     cy.get(".chakra-image.css-1ywmljq", { timeout: 15000 }).should("be.visible");
   });
-});
+// });
 
   

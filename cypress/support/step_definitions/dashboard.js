@@ -1,4 +1,4 @@
-// import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"; 
 
 // Given("the user is logged in", () => {
 //   // cy.login();
@@ -28,25 +28,37 @@
 //   cy.get('.chakra-heading.css-107ng0r').should("be.visible");
 // });
 
-// When("the user clicks on the day from the dropdown", () => {
-//   cy.get(".select__input-container").click(); 
-//   cy.wait(500); 
-//   cy.get('[data-index="3"]').click({ force: true });
-//   // cy.contains("p", day).should("be.visible").click({ force: true });
+When('I select {string} from the dropdown', () => {
+  cy.get(".select__input-container").click();
+  cy.wait(500);
+  cy.get('[data-index="5"]').click({ force: true });
+  // cy.xpath(`//p[normalize-space()='${day}']`, { timeout: 10000 }).should('be.visible').click();
+});
 
-//   // cy.get(".select__input-container").click();
-//   // cy.contains("p", day).click();
-// });
+When("the user clicks on the day from the dropdown", () => {
+  cy.get(".select__input-container").click(); 
+  cy.wait(500); 
+  cy.get('[data-index="3"]').click({ force: true });
+  // cy.contains("p", day).should("be.visible").click({ force: true });
 
-// Then("the user able to see widgets on Dashboard", () => {
-//   cy.wait(2000); 
-//   cy.contains("TQACXO").should("be.visible");
-// });
+  // cy.get(".select__input-container").click();
+  // cy.contains("p", day).click();
+});
 
+Then("I verify the widgets are visible",() =>{
+  cy.xpath("//div[@class='css-1ikrpfh']//div[@class='css-gmuwbf']")
+  .should("exist")
+  .should("be.visible");
 
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+});
 
-Given("I visit the login page", () => {
+Then("the user able to see widgets on Dashboard", () => {
+  cy.wait(2000); 
+  cy.contains("TQACXO").should("be.visible");
+});
+
+Given("I visit the Home page", () => {
+  cy.xpath(`//div[@class='css-wqj460']`);
   // cy.login();
 });
 
@@ -55,19 +67,25 @@ Then("I should see {string} on the page", (text) => {
 });
 
 When("I click on Dashboard Home", () => {
-  cy.xpath("//a[@href='/home']").click();
+ // cy.contains("Universal Enterprise Quality Engineering Dashboard").click();
+  cy.xpath(`//a[@href='/home']`).click();
 });
 
 When("I click on Dashboards button", () => {
-  cy.xpath("//button[contains(text(),'DASHBOARDS')]").click();
+  // cy.xpath("//button[contains(text(),'DASHBOARDS')]").click();
+  cy.url().should('include', '/home');
+  cy.get('button').contains("DASHBOARDS")
+  .should("be.visible")
+  .click();
 });
 
 When("I click on CXO Dashboard", () => {
-  cy.xpath("//button[normalize-space()='CXO Dashboard']").click();
+  cy.get('button').contains("CXO Dashboard").click();
+  // cy.xpath("//button[normalize-space()='CXO Dashboard']").click();
 });
 
 Then("I should be on the CXO Dashboard page", () => {
-  cy.url().should("include", "/dashboard/cxo");
+  cy.url().should("include", "/cxo-dashboard?");
 });
 
 When("I expand a widget", () => {
@@ -86,3 +104,31 @@ Then("The widget should be collapsed", () => {
   cy.get('img[alt="expand"]').first().should("be.visible");
 });
 
+When("I open the Test Coverage Widget", () => {
+  cy.get('b').contains("Test Coverage").click();
+});
+
+Then("I should see the pie chart for {string}", (browserName) => {
+  cy.xpath(`//div[contains(@class, 'css-0')][normalize-space()='${browserName}']`).should("be.visible");
+
+});
+
+Given("I am on the Dashboard page",() =>{
+  cy.xpath(`//a[@href='/home']`).click();
+});
+
+When("I click on the full-screen icon", () => {
+  cy.get('img[alt="expand"]').first().click();
+});
+
+Then("the dashboard should enter full-screen mode", () => {
+  cy.xpath(`//body/div[@id='__next']`);
+});
+
+When("I click on the full-screen icon again",() =>{
+  cy.get('img[alt="expand"]').click();
+});
+
+Then("the dashboard should exit full-screen mode", () => {
+  cy.get("body").should("not.have.class", "css-hboir5");
+});
