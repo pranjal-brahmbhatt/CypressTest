@@ -41,10 +41,10 @@ Scenario: Select a Day from Dropdown
     And the user clicks on the day from the dropdown
     Then the user able to see widgets on Dashboard
 
-   Scenario Outline: Verify pie chart visibility for different test statuses
+   Scenario Outline: Verify pie chart visibility for Test Coverage
     Given I visit the Home page
     When I click on Dashboard Home
-    When I open the Test Coverage Widget
+    And I open the Test Coverage Widget
     Then I should see the pie chart for "<status>"
 
     Examples:
@@ -53,13 +53,67 @@ Scenario: Select a Day from Dropdown
       | Not Covered    |
       | Not Applicable |
 
-  Scenario Outline: Toggle Full-Screen Mode
-    Given I am on the Dashboard page
-    When I click on the full-screen icon
-    Then the dashboard should enter full-screen mode
-    When I click on the full-screen icon again
-    Then the dashboard should exit full-screen mode
+     Scenario Outline: Verify pie chart visibility for Automation coverage
+    Given I visit the Home page
+    When I click on Dashboard Home
+    And I open the Automation Coverage Widget
+    Then I should see the pie chart for "<status>"
 
+    Examples:
+      | status         |
+      | Automated      |
+      | Not Automated  |
 
+   Scenario Outline: Verify LOB for Defect By trend
+    Given I visit the Home page
+    When I click on Dashboard Home
+    And I open the Defect By trend Widget
+    Then I should see LOB for Defect By trend
+
+  Scenario Outline: Verify Team section in LOB
+    Given I visit the Home page
+    When I click on Dashboard Home
+    And I open LOB of Defect By trend Widget
+    Then I should see Team section
+
+  Scenario Outline: Verify Expand & collapse functionality for team section
+    Given I am on Team Section In LOB
+    And I click on expand button widget get expanded
+    And I click on collapse button Widget get collapsed
+
+  Scenario Outline: Verify Values In Pie Chart
+    Given I visit the Home page
+    When I click on Dashboard Home
+    Then I should see the pie chart for "<status>"
+
+    Examples:
+      | status        |
+      | PASS          |
+      | FAIL          |
+      | PENDING       |
+      | SKIPPED       |
+
+Scenario Outline: visit profile page
+    Given I click on profile page
+    Then I should see profile page
+
+Scenario Outline: verify all data for profile page
+     Given I click on profile page
+     Then I should see profile page
+     And I should see basic information of user 
+  
+Scenario Outline: verify purging functionality
+      Given I click on profile page
+      Then I click on purging
+
+Scenario Outline: verify purging options
+      Given I click on profile page
+      When I click on purging
+      Then I can see three "<purging options>"
+  Examples:
+  | purging options     |
+  | Time Based Purging  |
+  | Limit Based Purging |
+  | On-Demand Purging   |
 
 

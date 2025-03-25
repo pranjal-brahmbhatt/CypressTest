@@ -108,13 +108,47 @@ When("I open the Test Coverage Widget", () => {
   cy.get('b').contains("Test Coverage").click();
 });
 
-Then("I should see the pie chart for {string}", (browserName) => {
-  cy.xpath(`//div[contains(@class, 'css-0')][normalize-space()='${browserName}']`).should("be.visible");
-
+When("I open the Automation Coverage Widget", () => {
+  cy.xpath(`//b[normalize-space()='Automation Coverage']`).click();
 });
 
-Given("I am on the Dashboard page",() =>{
+When("I open the Defect By trend Widget", () => {
+  cy.xpath(`//b[normalize-space()='Defect By Trend']`).click();
+});
+
+Then("I should see the pie chart for {string}", (browserName) => {
+  cy.xpath(`//div[contains(@class, 'css-0')][normalize-space()='${browserName}']`).should("be.visible");
+});
+
+Then("I should see LOB for Defect By trend", () => {
+  cy.xpath(`//p[normalize-space()='Line of Business']`).should("be.visible");
+});
+
+When("I open LOB of Defect By trend Widget", () => {
+  cy.xpath(`//b[normalize-space()='Defect By Trend']`).click();
+  cy.xpath(`//div[@class='css-644kgd']//div[@class='css-xfeben']`).click();
+});
+
+Then("I should see Team section", () => {
+  cy.xpath(`//p[normalize-space()='Team']`).should("be.visible");
+});
+
+Given("I am on Team Section In LOB",() =>{
   cy.xpath(`//a[@href='/home']`).click();
+  cy.get('button').contains("DASHBOARDS")
+  .should("be.visible")
+  .click();
+  cy.xpath(`//b[normalize-space()='Defect By Trend']`).click();
+  cy.xpath(`//div[@class='css-644kgd']//div[@class='css-xfeben']`).click();
+  cy.xpath(`//p[normalize-space()='Team']`).should("be.visible");
+});
+
+When("I click on expand button widget get expanded", () => {
+  cy.get('img[alt="expand"]').first().click();
+});
+
+When("I click on collapse button Widget get collapsed", () => {
+  cy.get('img[alt="collapse"]').first().click();
 });
 
 When("I click on the full-screen icon", () => {
@@ -131,4 +165,29 @@ When("I click on the full-screen icon again",() =>{
 
 Then("the dashboard should exit full-screen mode", () => {
   cy.get("body").should("not.have.class", "css-hboir5");
+});
+
+Given("I click on profile page",() =>{
+  cy.xpath(`//img[@class='chakra-image css-4g6ai3']`).click();
+  cy.xpath("//button[contains(@id, 'menu-list')]").first().click();
+});
+
+Then("I should see profile page", () => {
+  cy.get('p').contains("General").should("be.visible");
+});
+
+Then("I should see basic information of user", () => {
+  cy.get('p').contains("First Name").should("be.visible");
+  cy.get('p').contains("User Name").should("be.visible");
+  cy.get('p').contains("Last Name").should("be.visible");
+  cy.get('p').contains("Organization Name").should("be.visible");
+});
+
+Then("I click on purging", () => {
+  cy.xpath("//button[contains(@id, 'accordion-button-')]//div[@class='css-1rb7kdn' and normalize-space()='Purging']")
+  .click();
+});
+
+Then("I can see three {string}", (purgingOption) => {  
+  cy.xpath(`//p[normalize-space()='${purgingOption}']`).should("be.visible");
 });

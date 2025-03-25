@@ -49,7 +49,7 @@ module.exports = defineConfig({
       await addCucumberPreprocessorPlugin(on, config);
       on("file:preprocessor", createBundler({ plugins: [createEsbuildPlugin(config)] }));
 
-      // await DigyRunner.setup(on, config);
+      await DigyRunner.setup(on, config);
 
       return config;
     },
