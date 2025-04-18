@@ -4,6 +4,19 @@ const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-prepro
 const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 const { DigyRunner } = require("@digy4/digyrunner-cypress");
 
+// const plugin1 = (on) => {
+//   on('before:run', (details) => console.log('[Plugin #1] Running before:run'));
+//   on('after:spec', (details) => console.log('[Plugin #1] Running after:spec'));
+//   on('after:run', (details) => console.log('[Plugin #1] Running after:run'));
+// };
+
+// const plugin2 = (on) => {
+//   on('before:run', (details) => console.log('[Plugin #2] Running before:run'));
+//   on('after:spec', (details) => console.log('[Plugin #2] Running after:spec'));
+//   on('after:run', (details) => console.log('[Plugin #2] Running after:run'));
+// };
+
+
 module.exports = defineConfig({
   videosFolder: "cypress/videos",
   video: true,
@@ -18,7 +31,7 @@ module.exports = defineConfig({
     TEAM_NAME: "DIGY4",
     PROJECT_NAME: "RCASEPC",
     BUILD_ID: "",
-    SUITE_NAME: "Regression",
+    SUITE_NAME: "SUITE1",
     APP_VERSION: "2.0",
     ENVIRONMENT: "test",
     FRAMEWORK: "cypress", // don't change
@@ -36,11 +49,11 @@ module.exports = defineConfig({
     filterSpecs: true,
     omitFiltered: true,
     TEST_TYPE: "WEB"
-    // TEST_TYPE: "API"
+     //TEST_TYPE: "API"
     //TEST_TYPE: "HYBRID"
   },
   e2e: {
-    // testIsolation: false,
+    // testIsolation: true,
     baseUrl: "https://dashboard-test-iaac.digy4.com",
     env: {
       apiBaseUrl: "https://u7dd3kq498.execute-api.us-west-2.amazonaws.com/prod" // API Base URL
@@ -49,11 +62,14 @@ module.exports = defineConfig({
       await addCucumberPreprocessorPlugin(on, config);
       on("file:preprocessor", createBundler({ plugins: [createEsbuildPlugin(config)] }));
 
+      // await DigyRunner.setup(on, config, [plugin1, plugin2]);
       await DigyRunner.setup(on, config);
-
+      config.env.TAGS = config.env.TAGS || "@smoke"; 
       return config;
+
+      
     },
     specPattern: "cypress/e2e/**/dashboard.feature",  //WEB
-  //  specPattern: "cypress/e2e/**/API.feature", //API
+   //specPattern: "cypress/e2e/**/API.feature", //API
   },
 });

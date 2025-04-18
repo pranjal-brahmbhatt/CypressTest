@@ -191,3 +191,86 @@ Then("I click on purging", () => {
 Then("I can see three {string}", (purgingOption) => {  
   cy.xpath(`//p[normalize-space()='${purgingOption}']`).should("be.visible");
 });
+
+Then("I can see plan limit testCase execution", () => {
+  cy.get('p').contains("N/A").should("be.visible");
+});
+
+Then("It must be same in usage section", () => {  
+  cy.get('p').contains("N/A").should("be.visible");
+});
+
+When("I click on time Based purging", () => {
+  cy.xpath(`//p[normalize-space()='Time Based Purging']`).click();
+});
+
+Then("I can select {string} accordingly", (option) => {  
+
+  cy.xpath("//select[@name='timeSelect']")
+  .should("be.visible")
+  .select(option)
+  .should("have.value", option);
+});
+
+Then("I can see same {string} in rest", (option) => { 
+  cy.xpath(`//select[@name='demandSelect']`)
+  .should("be.visible")
+  .select(option)
+  .should("have.value", option);   
+});
+
+Given("I click on integration page", () => {  
+  cy.xpath("//a[@href='/integrations']").click();
+});
+
+Then("I Can see {string} as a title", (option) => { 
+  cy.url().should('include','/integrations');
+  cy.get('p').contains(option).should("be.visible");
+});
+
+
+When("I click On Admin pannel", () => {  
+
+  cy.xpath("//div[@class='css-1uurwrt']//button[contains(text(),'ADMIN PANEL')]").click();
+});
+
+When("I click On User Section", () => { 
+   cy.xpath("//button[contains(text(),'Users')]").click();
+});
+
+Then("I should be on user section page", () => { 
+  cy.url().should('include','/user-list');
+});
+
+Given("I am on user section", () => { 
+  cy.xpath("//div[@class='css-1uurwrt']//button[contains(text(),'ADMIN PANEL')]").click();
+  cy.xpath("//button[contains(text(),'Users')]").click();
+});
+
+Then("I can change {string}", (searchbar) => { 
+  cy.xpath("//img[@class='chakra-image css-n21tkq']").click();
+ cy.xpath(`//div[contains(text(),'${searchbar}')]`);
+});
+
+Then("I can search using search bar", () => { 
+  //cy.get("input[id='field-:rd:']").should('be.visible').click();
+  cy.get("[data-testid='search-user-list']").click();
+});
+
+When("I enter {string} in search", (searchbar) => { 
+  cy.get("[data-testid='search-user-list']").click().type(searchbar);
+});
+
+When("I can scroll through {string}", (users) => { 
+  cy.get("[data-testid='status-filter']").click();
+  cy.xpath(`//div[contains(text(),'${users}')]`).should('exist')  // Ensures the element exists
+  .should('be.visible')  // Ensures it's visible before clicking
+  .click({ multiple: true });;
+});
+
+When("I Can see {string} for users", (fields) => { 
+ // cy.xpath(`//div[@class='css-1ncxbno']`).should('exist').contains(fields);
+ //cy.contains('css-1owj4uq', fields);
+ //cy.xpath(`//th[@class='css-1owj4uq' and text()='${fields}']`);
+ cy.xpath("(//th[contains(@class,'css-1owj4uq')])").should('be.visible');
+});
